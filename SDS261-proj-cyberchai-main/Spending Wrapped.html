@@ -1,0 +1,2424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Chaira Harder">
+
+<title>$pending Wrapped</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Spending Wrapped_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Spending Wrapped_files/libs/quarto-html/quarto.js"></script>
+<script src="Spending Wrapped_files/libs/quarto-html/popper.min.js"></script>
+<script src="Spending Wrapped_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Spending Wrapped_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Spending Wrapped_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Spending Wrapped_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Spending Wrapped_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Spending Wrapped_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Spending Wrapped_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">$pending Wrapped</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Chaira Harder </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="spending_wrapped.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">$pending Wrapped</figcaption>
+</figure>
+</div>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The Data</h2>
+<p>The data used in the project was collected by American Express, Discover Bank, Toronto-Dominion US, Toronto-Dominion Canada, and the Bank of Montreal and tracked my personal expenditure in two countries: Canada and the United States.</p>
+<p>Originally, I wanted to use banking data from all of my debit accounts, credit cards, and trade/savings/retirement accounts, but that would take a little too long to collect all of the data from all of the platforms so I’m going to focus on the spending made from my credit cards (2 in the US and 2 in Canada), my Venmo account (US), and one of my old Canadian debit accounts (CA).</p>
+<p>I am exploring the data with two separate tables (US and Canada) because the exchange rate changes and it won’t as accurately represent my spending if it’s all in one currency.</p>
+<table class="table-striped table-hover table">
+<caption>Bank Accounts</caption>
+<colgroup>
+<col style="width: 32%">
+<col style="width: 24%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>BANK</th>
+<th>TYPE</th>
+<th>COUNTRY</th>
+<th>DATA USED</th>
+<th>DATA STARTS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>American Express</td>
+<td>Credit Card</td>
+<td>USA</td>
+<td>YES</td>
+<td>2023</td>
+</tr>
+<tr class="even">
+<td>Discover Bank</td>
+<td>Credit Card</td>
+<td>USA</td>
+<td>YES</td>
+<td>2023</td>
+</tr>
+<tr class="odd">
+<td>TD USA</td>
+<td>Debit Account</td>
+<td>USA</td>
+<td>YES</td>
+<td>2021</td>
+</tr>
+<tr class="even">
+<td>TD Canada</td>
+<td>Debit Account</td>
+<td>Canada</td>
+<td>NO</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>BMO Canada</td>
+<td>Debit Account</td>
+<td>Canada</td>
+<td>YES</td>
+<td>2019</td>
+</tr>
+<tr class="even">
+<td>TD Canada</td>
+<td>Credit Card</td>
+<td>Canada</td>
+<td>YES</td>
+<td>2023-LIMITED</td>
+</tr>
+<tr class="odd">
+<td>BMO Canada</td>
+<td>Credit Card</td>
+<td>Canada</td>
+<td>YES</td>
+<td>2022</td>
+</tr>
+<tr class="even">
+<td>Banc of California</td>
+<td>Money Market</td>
+<td>USA</td>
+<td>NO</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>BMO Harris</td>
+<td>Debit Account</td>
+<td>USA</td>
+<td>NO</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>VENMO</td>
+<td>ONLINE</td>
+<td>USA</td>
+<td>YES</td>
+<td>2021</td>
+</tr>
+</tbody>
+</table>
+<p><strong><em>Note: I am not racking up any credit card debt or loans.</em></strong></p>
+</section>
+<section id="the-process" class="level2">
+<h2 class="anchored" data-anchor-id="the-process">The Process</h2>
+<section id="first-we-load-the-necessary-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="first-we-load-the-necessary-libraries">First, we load the necessary libraries:</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(duckdb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>‘tidyverse’: A system of packages and tools in R used to help with data exploration, manipulation and visualization. ‘duckdb’: An opensource database management system.</p>
+<p>Next, we make a connection using ‘duckdb’:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con_bank <span class="ot">&lt;-</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(duckdb<span class="sc">::</span><span class="fu">duckdb</span>(),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">dbdir =</span> <span class="st">"bank_db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our next step will be importing the data and creating the tables for our data in SQL:</p>
+<section id="the-amex-table" class="level4">
+<h4 class="anchored" data-anchor-id="the-amex-table">The Amex Table:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called amex if it already exists. This will allow us to create</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our amex table smoothly.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> amex;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With the following SQL block, we are defining the columns and any constraints in our ‘amex’ table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 1: Amex</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> amex (</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  transaction_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  description <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  amount <span class="dt">DECIMAL</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  extended_details <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  appears_as <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  address <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  city_state <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  zip_code <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  country <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  reference <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">category</span> <span class="dt">VARCHAR</span>(<span class="dv">255</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-discover-table" class="level4">
+<h4 class="anchored" data-anchor-id="the-discover-table">The Discover Table:</h4>
+<p>With the following SQL block, we are defining the columns and any constraints in our ‘discover’ table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our table smoothly.</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> discover;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 2: Discover</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> discover (</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  transaction_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  posted_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  description <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  amount <span class="dt">DECIMAL</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">category</span> <span class="dt">VARCHAR</span>(<span class="dv">255</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-td-us-debit-table" class="level4">
+<h4 class="anchored" data-anchor-id="the-td-us-debit-table">The TD US Debit Table:</h4>
+<p>With the following SQL block, we are defining the columns and any constraints in our ‘discover’ table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our table smoothly.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> tdus;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 2: TDUS</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> tdus (</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  transaction_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  description <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  amount <span class="dt">DECIMAL</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">category</span> <span class="dt">VARCHAR</span>(<span class="dv">255</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-venmo-table" class="level4">
+<h4 class="anchored" data-anchor-id="the-venmo-table">The Venmo Table:</h4>
+<p>With the following SQL block, we are defining the columns and any constraints in our ‘venmo’ table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our venmo table smoothly.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> venmo;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 3: Venmo</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> venmo (</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  transaction_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  description <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  amount <span class="dt">DECIMAL</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">category</span> <span class="dt">VARCHAR</span>(<span class="dv">255</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-td-canada-table" class="level4">
+<h4 class="anchored" data-anchor-id="the-td-canada-table">The TD Canada Table:</h4>
+<p>With the following SQL block, we are defining the columns and any constraints in our ‘tdca’ table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our tdca table smoothly.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> tdca;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 4: TDCA</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> tdca (</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  transaction_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  description <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  amount <span class="dt">DECIMAL</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">category</span> <span class="dt">VARCHAR</span>(<span class="dv">255</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-bmo-table" class="level4">
+<h4 class="anchored" data-anchor-id="the-bmo-table">The BMO Table:</h4>
+<p>With the following SQL block, we are defining the columns and any constraints in our ‘bmoca’ table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our bmoca table smoothly.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> bmoca;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 5: BMO</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> bmoca (</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  transaction_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  description <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  amount <span class="dt">DECIMAL</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">category</span> <span class="dt">VARCHAR</span>(<span class="dv">255</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-bmo-debit-table" class="level4">
+<h4 class="anchored" data-anchor-id="the-bmo-debit-table">The BMO Debit Table:</h4>
+<p>With the following SQL block, we are defining the columns and any constraints in our ‘bmoca’ table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our bmoca table smoothly.</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> bmodebit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 5: BMO</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> bmodebit (</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  transaction_date <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  description <span class="dt">VARCHAR</span>(<span class="dv">255</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  amount <span class="dt">DECIMAL</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">category</span> <span class="dt">VARCHAR</span>(<span class="dv">255</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The following two SQL blocks copy the data from the csv files provided by the banks, into our tables and database. We will also view the number of observations each table originally holds individually.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> amex <span class="kw">FROM</span> <span class="st">'/Users/chairaharder/Desktop/bank_data/amex.csv'</span> <span class="kw">HEADER</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> amex;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">279</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our ‘amex’ table contains <em>279</em> observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> discover <span class="kw">FROM</span> <span class="st">'/Users/chairaharder/Desktop/bank_data/DFS-Search-20240115.csv'</span> <span class="kw">HEADER</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> discover;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">144</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our ‘discover’ table contains <em>144</em> observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> tdus <span class="kw">FROM</span> <span class="st">'/Users/chairaharder/Desktop/bank_data/tdus_debit.csv'</span> <span class="kw">HEADER</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> tdus;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">353</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our ‘tdus’ table contains <em>353</em> observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> venmo <span class="kw">FROM</span> <span class="st">'/Users/chairaharder/Desktop/bank_data/venmo.csv'</span> <span class="kw">HEADER</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> venmo;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">60</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our ‘venmo’ table contains <em>60</em> observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> tdca <span class="kw">FROM</span> <span class="st">'/Users/chairaharder/Desktop/bank_data/tdca.csv'</span> <span class="kw">HEADER</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> tdca;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">28</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our ‘tdca’ table contains <em>28</em> observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> bmoca <span class="kw">FROM</span> <span class="st">'/Users/chairaharder/Desktop/bank_data/bmo.csv'</span> <span class="kw">HEADER</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> bmoca;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">145</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our ‘bmoca’ table contains <em>145</em> observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> bmodebit <span class="kw">FROM</span> <span class="st">'/Users/chairaharder/Desktop/bank_data/bmodebit.csv'</span> <span class="kw">HEADER</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> bmodebit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">282</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Our ‘bmodebit’ table contains <em>282</em> observations.</p>
+<p><strong><em>Unfortunately I could not access my TD Canada Credit data (and some of BMO Credit) beyond the July-August of 2023 as the statements had deleted.</em></strong></p>
+<p>We can view some of the data from our tables with the following block (make sure the data is there):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- FOR AMEX DATA</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> transaction_date, description, amount, <span class="kw">category</span> <span class="kw">FROM</span> amex <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 42%">
+<col style="width: 7%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+<th style="text-align: left;">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">01/14/2024</td>
+<td style="text-align: left;">BT<em>DD </em>DOORDASH ORIESAN FRANCISCO CA</td>
+<td style="text-align: right;">22.45</td>
+<td style="text-align: left;">Restaurant-Restaurant</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">01/11/2024</td>
+<td style="text-align: left;">ONLINE PAYMENT - THANK YOU</td>
+<td style="text-align: right;">-15.40</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">01/09/2024</td>
+<td style="text-align: left;">ONLINE PAYMENT - THANK YOU</td>
+<td style="text-align: right;">-276.74</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">01/08/2024</td>
+<td style="text-align: left;">STARBUCKS STORE 0864WOODBRIDGE CT</td>
+<td style="text-align: right;">15.40</td>
+<td style="text-align: left;">Restaurant-Bar &amp; Café</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">01/06/2024</td>
+<td style="text-align: left;">Pioneer Valley IndooWest Hatfield MA</td>
+<td style="text-align: right;">135.00</td>
+<td style="text-align: left;">Entertainment-Other Entertainment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">01/06/2024</td>
+<td style="text-align: left;">TRANS WORLD FOOD MARHADLEY MA</td>
+<td style="text-align: right;">5.50</td>
+<td style="text-align: left;">Merchandise &amp; Supplies-Groceries</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">01/05/2024</td>
+<td style="text-align: left;">SHELL SERVICE STATIONORTHAMPTON MA</td>
+<td style="text-align: right;">26.58</td>
+<td style="text-align: left;">Transportation-Fuel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">01/04/2024</td>
+<td style="text-align: left;">CAFE BALAGAN 0688800NORTHAMPTON MA</td>
+<td style="text-align: right;">5.90</td>
+<td style="text-align: left;">Other-Miscellaneous</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">01/04/2024</td>
+<td style="text-align: left;">NICE TEA 00-08041479NORTHAMPTON MA</td>
+<td style="text-align: right;">16.35</td>
+<td style="text-align: left;">Restaurant-Restaurant</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">01/03/2024</td>
+<td style="text-align: left;">ONLINE PAYMENT - THANK YOU</td>
+<td style="text-align: right;">-354.15</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- FOR DISCOVER DATA</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> discover <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 49%">
+<col style="width: 6%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">posted_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+<th style="text-align: left;">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">03/29/2023</td>
+<td style="text-align: left;">03/29/2023</td>
+<td style="text-align: left;">MCDONALD’S F862 NORTHAMPTON MA</td>
+<td style="text-align: right;">6.83</td>
+<td style="text-align: left;">Restaurants</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">03/29/2023</td>
+<td style="text-align: left;">03/29/2023</td>
+<td style="text-align: left;">RMV E-SERVICES 857-368-8000 MA</td>
+<td style="text-align: right;">10.00</td>
+<td style="text-align: left;">Government Services</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">03/30/2023</td>
+<td style="text-align: left;">03/30/2023</td>
+<td style="text-align: left;">WALMART STORE 02901 NORTHHAMPTON MA</td>
+<td style="text-align: right;">2.82</td>
+<td style="text-align: left;">Merchandise</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">03/31/2023</td>
+<td style="text-align: left;">03/31/2023</td>
+<td style="text-align: left;">GRUBHUBUYAPOKENORTHAM 877-585-1085 NY</td>
+<td style="text-align: right;">12.37</td>
+<td style="text-align: left;">Restaurants</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">03/31/2023</td>
+<td style="text-align: left;">03/31/2023</td>
+<td style="text-align: left;">PARADISE COPIES NORTHAMPTON MA</td>
+<td style="text-align: right;">45.69</td>
+<td style="text-align: left;">Services</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">03/31/2023</td>
+<td style="text-align: left;">03/31/2023</td>
+<td style="text-align: left;">WALMART STORE 02901 NORTHHAMPTON MA</td>
+<td style="text-align: right;">14.85</td>
+<td style="text-align: left;">Merchandise</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">04/01/2023</td>
+<td style="text-align: left;">04/01/2023</td>
+<td style="text-align: left;">INTERNET PAYMENT - THANK YOU</td>
+<td style="text-align: right;">-16.83</td>
+<td style="text-align: left;">Payments and Credits</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">04/01/2023</td>
+<td style="text-align: left;">04/01/2023</td>
+<td style="text-align: left;">STARBUCKS STORE 59964 NORTHAMPTON MA79699FCE7D6E687925</td>
+<td style="text-align: right;">18.62</td>
+<td style="text-align: left;">Restaurants</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">04/01/2023</td>
+<td style="text-align: left;">04/01/2023</td>
+<td style="text-align: left;">THAI GARDEN - NORTHAMPTO NORTHAMPTON MA</td>
+<td style="text-align: right;">53.41</td>
+<td style="text-align: left;">Restaurants</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">04/02/2023</td>
+<td style="text-align: left;">04/02/2023</td>
+<td style="text-align: left;">CHIPOTLE 1693 HADLEY MA</td>
+<td style="text-align: right;">21.35</td>
+<td style="text-align: left;">Restaurants</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- FOR TDUS DATA</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> tdus <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 51%">
+<col style="width: 8%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+<th style="text-align: left;">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">08/26/2021</td>
+<td style="text-align: left;">MTA METROCARD MACHINE NEWYORK NY</td>
+<td style="text-align: right;">5.00</td>
+<td style="text-align: left;">TRAVEL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/01/2021</td>
+<td style="text-align: left;">UBRAN OUTFITTERS 109 MAI NORTHAMPTON MA</td>
+<td style="text-align: right;">21.60</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">09/07/2021</td>
+<td style="text-align: left;">ZIPCAR SEP04 NORTHAMPTON MA</td>
+<td style="text-align: right;">28.69</td>
+<td style="text-align: left;">TRAVEL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/13/2021</td>
+<td style="text-align: left;">SPENCER GIFTS HOLYOKE MA</td>
+<td style="text-align: right;">12.99</td>
+<td style="text-align: left;">ENTERTAINMENT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">09/13/2021</td>
+<td style="text-align: left;">OLD NAVY US HOLYOKE MA</td>
+<td style="text-align: right;">29.99</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/20/2021</td>
+<td style="text-align: left;">TARGET HADLEY MA</td>
+<td style="text-align: right;">8.50</td>
+<td style="text-align: left;">GROCERY</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">09/20/2021</td>
+<td style="text-align: left;">MCDONALDS NORTHAMPTON MA</td>
+<td style="text-align: right;">2.14</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/20/2021</td>
+<td style="text-align: left;">SPOTIFY USA NY</td>
+<td style="text-align: right;">4.99</td>
+<td style="text-align: left;">ENTERTAINMENT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">09/23/2021</td>
+<td style="text-align: left;">OLD NAVY ONLINE OH</td>
+<td style="text-align: right;">48.99</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/24/2021</td>
+<td style="text-align: left;">TARGET COM MN AIRPODS</td>
+<td style="text-align: right;">138.11</td>
+<td style="text-align: left;">ELECTRONICS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- FOR VENMO DATA</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> venmo <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 46%">
+<col style="width: 9%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+<th style="text-align: left;">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">09/18/2021</td>
+<td style="text-align: left;">VENMO NICOLE STEWART CLOTHES</td>
+<td style="text-align: right;">13.97</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/20/2021</td>
+<td style="text-align: left;">VENMO NICOLE STEWART CLOTHES</td>
+<td style="text-align: right;">9.07</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">09/20/2021</td>
+<td style="text-align: left;">VENMO MIA GAGE FOOD BURRITO</td>
+<td style="text-align: right;">10.18</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/28/2021</td>
+<td style="text-align: left;">VENMO MIA GAGE FOOD PIZZA</td>
+<td style="text-align: right;">4.83</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10/01/2021</td>
+<td style="text-align: left;">VENMO RAE ETTENGER</td>
+<td style="text-align: right;">10.09</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10/02/2021</td>
+<td style="text-align: left;">VENMO MIA GAGE</td>
+<td style="text-align: right;">15.89</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10/09/2021</td>
+<td style="text-align: left;">VENMO LOGAN HANKLA RUGBY SHIRT</td>
+<td style="text-align: right;">20.00</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10/18/2021</td>
+<td style="text-align: left;">VENMO MIA GAGE TICKET</td>
+<td style="text-align: right;">42.49</td>
+<td style="text-align: left;">ENTERTAINMENT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">10/25/2021</td>
+<td style="text-align: left;">VENMO MIA GAGE TICKET AND DRINKS</td>
+<td style="text-align: right;">48.55</td>
+<td style="text-align: left;">ENTERTAINMENT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10/25/2021</td>
+<td style="text-align: left;">VENMO LOGAN HANKLA RUGBY</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: left;">HEALTH</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- FOR TD CA DATA</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> tdca <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+<th style="text-align: left;">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">08/13/2023</td>
+<td style="text-align: left;">CANCO #126 &amp; PIZZA PIZ</td>
+<td style="text-align: right;">16.78</td>
+<td style="text-align: left;">GAS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/12/2023</td>
+<td style="text-align: left;">REAL CDN SUPERSTORE #1</td>
+<td style="text-align: right;">15.20</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/11/2023</td>
+<td style="text-align: left;">CINEPLEX 8030 WEB QPS</td>
+<td style="text-align: right;">29.42</td>
+<td style="text-align: left;">ENTERTAINMENT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/10/2023</td>
+<td style="text-align: left;">STARBUCKS 04201</td>
+<td style="text-align: right;">7.56</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/10/2023</td>
+<td style="text-align: left;">PAYMENT - THANK YOU</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/08/2023</td>
+<td style="text-align: left;">PAYMENT - THANK YOU</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/07/2023</td>
+<td style="text-align: left;">STARBUCKS COFFEE #2083</td>
+<td style="text-align: right;">22.10</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/07/2023</td>
+<td style="text-align: left;">BLUETAIL SUSHI</td>
+<td style="text-align: right;">34.03</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/07/2023</td>
+<td style="text-align: left;">SONIC WASH KELOWNA</td>
+<td style="text-align: right;">11.99</td>
+<td style="text-align: left;">CAR</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/07/2023</td>
+<td style="text-align: left;">SONIC WASH KELOWNA</td>
+<td style="text-align: right;">18.98</td>
+<td style="text-align: left;">CAR</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- FOR BMO CA DATA</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> bmoca <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 59%">
+<col style="width: 8%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+<th style="text-align: left;">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">05/24/2022</td>
+<td style="text-align: left;">SHOPPERS DRUG MART #22 KELOWNA BC</td>
+<td style="text-align: right;">2.73</td>
+<td style="text-align: left;">PERSONAL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">05/26/2022</td>
+<td style="text-align: left;">USD15.00@1.32066666 AP SCORE REPORT 888-2255427 NY</td>
+<td style="text-align: right;">19.81</td>
+<td style="text-align: left;">ACADEMIC</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">05/27/2022</td>
+<td style="text-align: left;">SHOPPERS DRUG MART #22 KELOWNA BC</td>
+<td style="text-align: right;">5.01</td>
+<td style="text-align: left;">PERSONAL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">05/27/2022</td>
+<td style="text-align: left;">SHOPPERS DRUG MART #02 KELOWNA BC</td>
+<td style="text-align: right;">3.92</td>
+<td style="text-align: left;">PERSONAL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">05/30/2022</td>
+<td style="text-align: left;">SHELL C21619 KELOWNA BC</td>
+<td style="text-align: right;">18.00</td>
+<td style="text-align: left;">GAS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">06/03/2022</td>
+<td style="text-align: left;">SHELL C21619 KELOWNA BC</td>
+<td style="text-align: right;">30.00</td>
+<td style="text-align: left;">GAS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">06/03/2022</td>
+<td style="text-align: left;">MCDONALD’S #5355 QPS KELOWNA BC</td>
+<td style="text-align: right;">2.77</td>
+<td style="text-align: left;">FOOD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">06/07/2022</td>
+<td style="text-align: left;">SHELL C44047 WINFIELD BC</td>
+<td style="text-align: right;">30.00</td>
+<td style="text-align: left;">GAS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">06/11/2022</td>
+<td style="text-align: left;">VESTA *CHATR 888-278-5588 BC</td>
+<td style="text-align: right;">39.20</td>
+<td style="text-align: left;">ELECTRONIC</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">06/11/2022</td>
+<td style="text-align: left;">SHELL C44047 WINFIELD BC</td>
+<td style="text-align: right;">50.00</td>
+<td style="text-align: left;">GAS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- FOR BMO DEBIT DATA</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> bmodebit <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+<th style="text-align: left;">category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">06/28/2019</td>
+<td style="text-align: left;">PLUS PLAN FEE</td>
+<td style="text-align: right;">10.95</td>
+<td style="text-align: left;">FEE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">06/28/2019</td>
+<td style="text-align: left;">VALUE VILLAGE KELOWNA BC</td>
+<td style="text-align: right;">17.89</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">06/28/2019</td>
+<td style="text-align: left;">VALUE VILLAGE KELOWNA BC</td>
+<td style="text-align: right;">30.75</td>
+<td style="text-align: left;">CLOTHES</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">07/02/2019</td>
+<td style="text-align: left;">AMB WITHDRAWAL</td>
+<td style="text-align: right;">200.00</td>
+<td style="text-align: left;">GROCERY</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">07/09/2019</td>
+<td style="text-align: left;">SAFEWAY KELOWNA BC</td>
+<td style="text-align: right;">21.51</td>
+<td style="text-align: left;">GROCERY</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">07/12/2019</td>
+<td style="text-align: left;">WALMART KELOWNA BC</td>
+<td style="text-align: right;">8.29</td>
+<td style="text-align: left;">GROCERY</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">07/31/2019</td>
+<td style="text-align: left;">PLUS PLAN FEE</td>
+<td style="text-align: right;">10.95</td>
+<td style="text-align: left;">FEE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/01/2019</td>
+<td style="text-align: left;">TEDS PAPERBACKS KELOWNA BC</td>
+<td style="text-align: right;">23.50</td>
+<td style="text-align: left;">BOOKS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/02/2019</td>
+<td style="text-align: left;">DOLLARAMA</td>
+<td style="text-align: right;">23.94</td>
+<td style="text-align: left;">GROCERY</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/06/2019</td>
+<td style="text-align: left;">VALUE VILLAGE KELOWNA BC</td>
+<td style="text-align: right;">8.37</td>
+<td style="text-align: left;">BOOKS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>And there we have our banking data imported!</p>
+<p>There are a couple of pending charges, so I’m going to manually update the tables to add them to the ‘amex’ and ‘discover’ tables:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- ADDING PENDING AMEX CHARGES</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> amex (transaction_date, description, amount, address , city_state, zip_code, country, <span class="kw">category</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">VALUES</span> (<span class="st">'01/18/2024'</span>, <span class="st">'STOP N SHOP'</span>, <span class="fl">28.49</span>, <span class="st">'228 KING ST NORTHAMPTON MA 01060'</span>, <span class="st">'NORTHAMPTON'</span>, <span class="st">'01063'</span>, <span class="st">'UNITED STATES'</span>, <span class="st">'FOOD'</span>),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>         (<span class="st">'01/18/2024'</span>, <span class="st">'SEPHORA'</span>, <span class="fl">10.59</span>, <span class="st">'50 HOLYOKE ST HOLYOKE MA 01040'</span>, <span class="st">'HOLYOKE'</span>, <span class="st">'01040'</span>, <span class="st">'UNITED STATES'</span>, <span class="st">'HEALTH &amp; BEAUTY'</span>),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>         (<span class="st">'01/18/2024'</span>, <span class="st">'PRETZELMAKER'</span>, <span class="fl">6.52</span>, <span class="st">'50 HOLYOKE ST HOLYOKE MA 01040'</span>, <span class="st">'HOLYOKE'</span>, <span class="st">'01040'</span>, <span class="st">'UNITED STATES'</span>, <span class="st">'FOOD'</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- ADDING PENDING DISCOVER CHARGES</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> discover (transaction_date, posted_date, description, amount, <span class="kw">category</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">VALUES</span> (<span class="st">'01/17/2024'</span>, <span class="st">'01/17/2024'</span>, <span class="st">'WALMART STORE 02901 NORTHHAMPTON MA'</span>, <span class="fl">33.73</span>, <span class="st">'GROCERIES'</span>),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         (<span class="st">'01/17/2024'</span>, <span class="st">'01/17/2024'</span>, <span class="st">'SMITH COLLEGE MAIL SERVICES NORTHAMPTON MA'</span>, <span class="fl">0.51</span>, <span class="st">'GIFTS'</span>),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         (<span class="st">'01/17/2024'</span>, <span class="st">'01/17/2024'</span>, <span class="st">'IXL FAMILY SUBSCRIPT 650-372-4040 CA'</span>, <span class="fl">10.57</span>, <span class="st">'ACADEMIA'</span>),</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>         (<span class="st">'01/18/2024'</span>, <span class="st">'01/17/2024'</span>, <span class="st">'HIGHBROW WOOD PIZZA NORTHAMPTON MA'</span>, <span class="fl">32.10</span>, <span class="st">'FOOD'</span>),</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>         (<span class="st">'01/17/2024'</span>, <span class="st">'01/17/2024'</span>, <span class="st">'DUNKIN #357276 NORTHAMPTON MA'</span>, <span class="fl">11.19</span>, <span class="st">'FOOD'</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- ADDING BMOCA CHARGES</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> bmoca (transaction_date, description, amount, <span class="kw">category</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">VALUES</span> (<span class="st">'05/23/2022'</span>, <span class="st">'KELOWNA AUTO WORLD'</span>, <span class="dv">2130</span>, <span class="st">'CAR'</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To make the data easier to explore, we are going to combine the tables using union to get all of the rows from both tables. Our combined resulting tables will be called ‘transactions_us’ and ‘transactions_canada’. ‘transactions_us’ = ‘amex’, ‘discover’, ‘venmo’, ‘tdus’ ‘transactions_canada’ = ‘bmoca’, ‘tdca’, ‘bmodebit’</p>
+</section>
+<section id="transactions_us" class="level4">
+<h4 class="anchored" data-anchor-id="transactions_us">TRANSACTIONS_US:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called transactions_us if it already exists. This will allow us to create</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our table smoothly.</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> transactions_us;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- SELECT * FROM amex a JOIN discover d ON a.transaction_date = d.transaction_date;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">--CREATE TABLE transactions_us SELECT transaction_date, description, amount, extended_details, appears_as, address, city_state, zip_code, country, reference, category FROM amex UNION ALL SELECT transaction_date, description, amount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, category FROM discover;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> transactions_us <span class="kw">AS</span> <span class="kw">SELECT</span> transaction_date, description, amount, extended_details, appears_as, address, city_state, zip_code, country, reference, <span class="kw">category</span> <span class="kw">FROM</span> amex </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span> </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> transaction_date, description, amount, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">category</span> <span class="kw">FROM</span> discover</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> transaction_date, description, amount, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">category</span> <span class="kw">FROM</span> venmo</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> transaction_date, description, amount, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">NULL</span>, <span class="kw">category</span> <span class="kw">FROM</span> tdus;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Confirming the ‘transactions_us’ table exists in our database:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">EXISTS</span> (<span class="kw">SELECT</span> <span class="dv">1</span> <span class="kw">FROM</span> information_schema.<span class="kw">tables</span> <span class="kw">WHERE</span> table_name <span class="op">=</span> <span class="st">'transactions_us'</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">EXISTS(SELECT 1 FROM information_schema.”tables” WHERE (table_name = ‘transactions_us’))</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>And seeing how many observations we have in our US transactions table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">as</span> total_rows <span class="kw">FROM</span> transactions_us <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">total_rows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">844</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="transactions_canada" class="level4">
+<h4 class="anchored" data-anchor-id="transactions_canada">TRANSACTIONS_CANADA:</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- This code drops (removes) any pre-existing table called transactions_canada if it already exists. This will allow us to create</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- our table smoothly.</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">TABLE</span> <span class="cf">IF</span> <span class="kw">EXISTS</span> transactions_canada;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- union tdca and bmo credit and bmo debit</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> transactions_canada <span class="kw">AS</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> transaction_date, description, amount, <span class="kw">category</span> <span class="kw">FROM</span> tdca </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span> </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> transaction_date, description, amount, <span class="kw">category</span> <span class="kw">FROM</span> bmoca</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> transaction_date, description, amount, <span class="kw">category</span> <span class="kw">FROM</span> bmodebit;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Confirming the ‘transactions_canada’ table exists in our database:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">EXISTS</span> (<span class="kw">SELECT</span> <span class="dv">1</span> <span class="kw">FROM</span> information_schema.<span class="kw">tables</span> <span class="kw">WHERE</span> table_name <span class="op">=</span> <span class="st">'transactions_canada'</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<colgroup>
+<col style="width: 100%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">EXISTS(SELECT 1 FROM information_schema.”tables” WHERE (table_name = ‘transactions_canada’))</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>And seeing how many observations we have in our Canadian transactions table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">as</span> total_rows <span class="kw">FROM</span> transactions_canada <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">total_rows</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">456</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Since I want to focus on my spending, I’m going to get rid of all of the observations where I’ve paid the balance (description is either <em>INTERNET PAYMENT - THANK YOU</em> or <em>ONLINE PAYMENT - THANK YOU</em>) or received a refund (negative amount). I won’t do the same for the Canadian table since I cleaned this part of the data manually beforehand.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> transactions_us</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>   <span class="kw">WHERE</span> amount <span class="op">&lt;</span> <span class="dv">0</span> <span class="kw">OR</span> description <span class="op">=</span> <span class="st">'INTERNET PAYMENT - THANK YOU'</span> <span class="kw">OR</span> description <span class="op">=</span> <span class="st">'ONLINE PAYMENT - THANK YOU'</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now our US transactions table contains 763 observations after deleting payments and refunds.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> transactions_us;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_star()</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">763</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="the-findings" class="level2">
+<h2 class="anchored" data-anchor-id="the-findings">The Findings</h2>
+<p>First, I want to find out how much I have spent in <em>total</em> from the data.</p>
+<p><em>TOTAL US SPENDING</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> total_spending <span class="kw">FROM</span> transactions_us <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">total_spending</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">40900.19</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>TOTAL CANADIAN SPENDING - INCLUDING UNIVERSITY FEES</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> total_spending <span class="kw">FROM</span> transactions_canada <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">total_spending</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">46593.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Based off of the data used, this query shows us that my <em>total</em> Canadian spending is <strong>CAD$46,593.60</strong>. However, this includes the cost of my tuition for one year, so I’m going to drop all values in the ‘Academic’ category so I can focus on my other, non-academic spending. I am also going to specify spending over $1,000 because there are other smaller transactions that are categorized as ‘Academic’ but really went to school smoothies and snacks, etc. Those can stay.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> transactions_canada</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>   <span class="kw">WHERE</span> <span class="kw">category</span> <span class="op">=</span> <span class="st">'ACADEMIC'</span> <span class="kw">AND</span> amount <span class="op">&gt;</span> <span class="dv">1000</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>TOTAL CANADIAN SPENDING - WITHOUT UNIVERSITY FEES</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> total_spending <span class="kw">FROM</span> transactions_canada <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">total_spending</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">16911.09</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>I also want to find how much I’ve spent <em>during the current 23-24 school year</em> (since September 2023 - current). This regex searches dates between September 1, 2023 through May 31, 2024 (written January 19, 2024).</p>
+<p><em>TOTAL US SCHOOL SPENDING - INCLUDING INVESTMENTS</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> junior_yr_spending_us <span class="kw">FROM</span> transactions_us <span class="kw">WHERE</span> regexp_matches(transaction_date, <span class="st">'(((09|10|11|12)/(([0-2][0-9])|3[01])/2023)|(0[1-5]/(([0-2][0-9])|3[01])/2024))'</span>) <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">junior_yr_spending_us</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11159.52</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This figure contains money I have invested this school year, so to look at money I have spent on things other than investments:</p>
+<p><em>TOTAL US SCHOOL SPENDING - EXCLUDING INVESTMENTS</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> junior_yr_spending_us <span class="kw">FROM</span> transactions_us <span class="kw">WHERE</span> regexp_matches(transaction_date, <span class="st">'(((09|10|11|12)/(([0-2][0-9])|3[01])/2023)|(0[1-5]/(([0-2][0-9])|3[01])/2024))'</span>) <span class="kw">AND</span> <span class="kw">category</span> <span class="op">!=</span> <span class="st">'INVEST'</span> <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">junior_yr_spending_us</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">7363.02</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>TOTAL CANADIAN SCHOOL SPENDING</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> junior_yr_spending_ca <span class="kw">FROM</span> transactions_canada <span class="kw">WHERE</span> regexp_matches(transaction_date, <span class="st">'(((09|10|11|12)/(([0-2][0-9])|3[01])/2023)|(0[1-5]/(([0-2][0-9])|3[01])/2024))'</span>) <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">junior_yr_spending_ca</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This checks out for the Canadian table since I don’t use my Canadian cards when I’m in the States.</p>
+<p>I want to compare this figure with my <em>spending over summer break</em>: Summer defined as from May - August.</p>
+<p><em>TOTAL US SUMMER SPENDING</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> summer_23_spending <span class="kw">FROM</span> transactions_us <span class="kw">WHERE</span> regexp_matches(transaction_date, <span class="st">'(0[5678])/(([0-2][0-9])|3[01])/2023'</span>) <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">summer_23_spending</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4797.39</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>My US 2023 summer spending is <strong>USD$4,797.39</strong>.</p>
+<p><em>TOTAL CANADIAN SUMMER SPENDING</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> summer_23_spending <span class="kw">FROM</span> transactions_canada <span class="kw">WHERE</span> regexp_matches(transaction_date, <span class="st">'(0[5678])/(([0-2][0-9])|3[01])/2023'</span>) <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">summer_23_spending</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3184.51</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>My Canada 2023 summer spending is <strong>CAD$3,184.51</strong>.</p>
+<p>These numbers are kind of skewed because the beginning of May (when I’m still in the US) and the end of August (when I’m traveling back to the US) have high spending figures in the US table. If we take out May and August for US spending, we see my actual summer spending at home with my US cards is <strong>USD$79.81</strong>, which would be for my phone plan and Spotify in the US.</p>
+<p><em>TOTAL US SUMMER SPENDING</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> summer_23_spending <span class="kw">FROM</span> transactions_us <span class="kw">WHERE</span> regexp_matches(transaction_date, <span class="st">'(0[67])/(([0-2][0-9])|3[01])/2023'</span>) <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">summer_23_spending</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">79.81</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> transaction_date, description, amount <span class="kw">FROM</span> transactions_us <span class="kw">WHERE</span> regexp_matches(transaction_date, <span class="st">'(0[67])/(([0-2][0-9])|3[01])/2023'</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>5 records</caption>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 66%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">06/29/2023</td>
+<td style="text-align: left;">TMOBILE*PREPAID WEB 877-778-2106 WA40279705351</td>
+<td style="text-align: right;">15.94</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">07/12/2023</td>
+<td style="text-align: left;">TMOBILE*PREPAID WEB 877-778-2106 WA40070527706</td>
+<td style="text-align: right;">15.94</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">07/27/2023</td>
+<td style="text-align: left;">TMOBILE*PREPAID WEB 877-778-2106 WA40799228613</td>
+<td style="text-align: right;">15.94</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">07/07/2023</td>
+<td style="text-align: left;">VENMO ABIGAIL FLETCHER HANNAH GIFT AND COFFEE</td>
+<td style="text-align: right;">27.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">06/21/2023</td>
+<td style="text-align: left;">SPOTIFY USA NY</td>
+<td style="text-align: right;">4.99</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The highest amount(s) of money I’ve spent in one transaction:</p>
+<p><em>US 15 HIGHEST TRANSACTIONS</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> transaction_date, description, amount <span class="kw">FROM</span> transactions_us <span class="kw">WHERE</span> <span class="kw">category</span> <span class="op">!=</span> <span class="st">'INVEST'</span> <span class="kw">ORDER</span> <span class="kw">BY</span> amount <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">15</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 66%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">09/06/2022</td>
+<td style="text-align: left;">THE TRUSTEES OF SMITH SCACHPMT</td>
+<td style="text-align: right;">9550.91</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">01/30/2023</td>
+<td style="text-align: left;">THE TRUSTEES OF SMITH SCACHPMT</td>
+<td style="text-align: right;">7050.91</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">09/03/2023</td>
+<td style="text-align: left;">VENMO CONNOR LEWIS IMAC 24 INCH 1TB SSD 16 GB RAM</td>
+<td style="text-align: right;">1400.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/17/2023</td>
+<td style="text-align: left;">Delta Hotels VancouvVancouver CA</td>
+<td style="text-align: right;">763.73</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">12/28/2021</td>
+<td style="text-align: left;">OK WIRELESS KELOWNA CA - IPHONE 12 PRO MAX</td>
+<td style="text-align: right;">391.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">05/13/2023</td>
+<td style="text-align: left;">UNITED AIRLINES 18004214655 TX</td>
+<td style="text-align: right;">329.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/24/2023</td>
+<td style="text-align: left;">DELTA AIR LINES ATLANTA</td>
+<td style="text-align: right;">302.47</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/24/2023</td>
+<td style="text-align: left;">DELTA AIR LINES ATLANTA</td>
+<td style="text-align: right;">302.47</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11/28/2023</td>
+<td style="text-align: left;">JETBLUE AIRWAYS 9010JETBLUE NY</td>
+<td style="text-align: right;">267.96</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11/28/2023</td>
+<td style="text-align: left;">JETBLUE AIRWAYS 9010JETBLUE NY</td>
+<td style="text-align: right;">267.96</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>CANADA 15 HIGHEST TRANSACTIONS</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> transaction_date, description, amount <span class="kw">FROM</span> transactions_canada <span class="kw">WHERE</span> description <span class="op">!=</span> <span class="st">'ABM WITHDRAWAL'</span> <span class="kw">ORDER</span> <span class="kw">BY</span> amount <span class="kw">DESC</span>;</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co">--SELECT transaction_date, description, amount, category FROM transactions_canada ORDER BY amount DESC LIMIT 15;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">transaction_date</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">05/23/2022</td>
+<td style="text-align: left;">KELOWNA AUTO WORLD</td>
+<td style="text-align: right;">2130.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12/29/2021</td>
+<td style="text-align: left;">OK WIRELESS</td>
+<td style="text-align: right;">500.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">06/02/2021</td>
+<td style="text-align: left;">DERMMEDICA</td>
+<td style="text-align: right;">498.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">03/03/2022</td>
+<td style="text-align: left;">USD CAD TRASFER TFR0721-4790-977 AT 1.3071</td>
+<td style="text-align: right;">457.49</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/13/2021</td>
+<td style="text-align: left;">INTERAC E-TRANSFER SENT - SEVIS FEE</td>
+<td style="text-align: right;">350.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">08/23/2021</td>
+<td style="text-align: left;">THE UPS STORE</td>
+<td style="text-align: right;">349.35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">09/27/2020</td>
+<td style="text-align: left;">PAYPAL PAYMENT</td>
+<td style="text-align: right;">329.32</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">05/14/2023</td>
+<td style="text-align: left;">AIR CANADA.COM</td>
+<td style="text-align: right;">282.29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">08/23/2021</td>
+<td style="text-align: left;">INTERAC E-TRANSFER</td>
+<td style="text-align: right;">250.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">09/06/2019</td>
+<td style="text-align: left;">INTERAC E-TRANSFER SENT</td>
+<td style="text-align: right;">240.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Top places I spend my money:</p>
+<p><em>US 10 BIGGEST CHAIRA MONEY GRABBERS</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> description, <span class="fu">SUM</span>(amount) <span class="kw">AS</span> total <span class="kw">FROM</span> transactions_us <span class="kw">GROUP</span> <span class="kw">BY</span> description <span class="kw">ORDER</span> <span class="kw">BY</span> total <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">THE TRUSTEES OF SMITH SCACHPMT</td>
+<td style="text-align: right;">16601.82</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BANC OF CALIFORNIA RAISIN TRANSFER</td>
+<td style="text-align: right;">3796.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VENMO CONNOR LEWIS IMAC 24 INCH 1TB SSD 16 GB RAM</td>
+<td style="text-align: right;">1400.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">JETBLUE AIRWAYS 9010JETBLUE NY</td>
+<td style="text-align: right;">833.72</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Delta Hotels VancouvVancouver CA</td>
+<td style="text-align: right;">763.73</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DELTA AIR LINES ATLANTA</td>
+<td style="text-align: right;">649.26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WAL-MART 2901 2901 NORTHAMPTON MA</td>
+<td style="text-align: right;">451.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OK WIRELESS KELOWNA CA - IPHONE 12 PRO MAX</td>
+<td style="text-align: right;">391.11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TORONTO DOMINION CAN STOCK FIRST REPUBLIC</td>
+<td style="text-align: right;">380.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UNITED AIRLINES 18004214655 TX</td>
+<td style="text-align: right;">359.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>CANADA 10 BIGGEST CHAIRA MONEY GRABBERS</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> description, <span class="fu">SUM</span>(amount) <span class="kw">AS</span> total <span class="kw">FROM</span> transactions_canada <span class="kw">GROUP</span> <span class="kw">BY</span> description <span class="kw">ORDER</span> <span class="kw">BY</span> total <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">KELOWNA AUTO WORLD</td>
+<td style="text-align: right;">2130.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ABM WITHDRAWAL</td>
+<td style="text-align: right;">990.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SHELL C21619 KELOWNA BC</td>
+<td style="text-align: right;">584.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">INTERAC E-TRANSFER</td>
+<td style="text-align: right;">509.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OK WIRELESS</td>
+<td style="text-align: right;">500.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DERMMEDICA</td>
+<td style="text-align: right;">498.75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">USD CAD TRASFER TFR0721-4790-977 AT 1.3071</td>
+<td style="text-align: right;">457.49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SHELL C44047 WINFIELD BC</td>
+<td style="text-align: right;">432.41</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PAYPAL PAYMENT</td>
+<td style="text-align: right;">354.52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">INTERAC E-TRANSFER SENT - SEVIS FEE</td>
+<td style="text-align: right;">350.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Based on what I know about myself, I know that Walmart and Shell are some of my most frequently visited places, so I’m curious to see how much I’ve spent there in the data:</p>
+<section id="walmart-us" class="level4">
+<h4 class="anchored" data-anchor-id="walmart-us">WALMART US</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> TOTAL <span class="kw">FROM</span> transactions_us <span class="kw">WHERE</span> description ILIKE <span class="st">'%walmart%'</span> <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">TOTAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">416.54</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="walmart-canada" class="level4">
+<h4 class="anchored" data-anchor-id="walmart-canada">WALMART CANADA</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> TOTAL <span class="kw">FROM</span> transactions_canada <span class="kw">WHERE</span> description ILIKE <span class="st">'%walmart%'</span> <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">TOTAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">422.42</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="shell-canada" class="level4">
+<h4 class="anchored" data-anchor-id="shell-canada">SHELL CANADA</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUM</span>(amount) <span class="kw">as</span> TOTAL <span class="kw">FROM</span> transactions_canada <span class="kw">WHERE</span> description ILIKE <span class="st">'%shell%'</span> <span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">TOTAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1226.49</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The following code shows my average spending at each unique store, but I want to see my average spending at each company more generally, so I’ll create a temporary table below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> description, <span class="fu">AVG</span>(amount) <span class="kw">as</span> AVERAGE <span class="kw">FROM</span> transactions_us <span class="kw">GROUP</span> <span class="kw">BY</span> description;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">AVERAGE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TRANS WORLD FOOD MARHADLEY MA</td>
+<td style="text-align: right;">24.224</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ALDI 73026 000000000NORTHAMPTON MA</td>
+<td style="text-align: right;">18.020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SP VIICAYA SCOTTSDALE AZ</td>
+<td style="text-align: right;">68.390</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">UBER EATS help.uber.com CA</td>
+<td style="text-align: right;">9.301</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">THAI THAI NORTHAMPTON MA</td>
+<td style="text-align: right;">37.400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">H &amp; M HOLYOKE MA</td>
+<td style="text-align: right;">49.980</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MCDONALD’S F862 0000NORTHAMPTON MA</td>
+<td style="text-align: right;">7.470</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">THAI GARDEN - NORTHANORTHAMPTON MA</td>
+<td style="text-align: right;">62.590</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TARGET MILFORD CT</td>
+<td style="text-align: right;">18.560</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">THAI STORIES Woodbridge CT</td>
+<td style="text-align: right;">18.350</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> description, <span class="fu">AVG</span>(amount) <span class="kw">as</span> AVERAGE <span class="kw">FROM</span> transactions_canada <span class="kw">GROUP</span> <span class="kw">BY</span> description;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">AVERAGE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PAYMENT - THANK YOU</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SONIC WASH KELOWNA</td>
+<td style="text-align: right;">15.485</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WAL-MART SUPERCENTER#3042</td>
+<td style="text-align: right;">33.610</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MCDONALD’S #5355 QPS</td>
+<td style="text-align: right;">5.200</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MCDONALD’S #5355 QPS KELOWNA BC</td>
+<td style="text-align: right;">10.174</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MCDONALD’S #29101 QPS LAKE COUNTRY BC</td>
+<td style="text-align: right;">4.720</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SHELL C01122 KELOWNA BC</td>
+<td style="text-align: right;">48.620</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">THE SIM SHOP YVR RICHMOND BC</td>
+<td style="text-align: right;">16.800</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AIR CANADA.COM</td>
+<td style="text-align: right;">156.895</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VALUE VILLAGE #2004 KELOWNA BC</td>
+<td style="text-align: right;">16.640</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> TEMP <span class="kw">TABLE</span> transaction_canada_gen <span class="kw">AS</span> <span class="kw">SELECT</span> <span class="op">*</span>,</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">CASE</span> </span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%SHELL%'</span> <span class="cf">THEN</span> <span class="st">'SHELL'</span></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%A</span><span class="ch">&amp;W</span><span class="st">%'</span> <span class="cf">THEN</span> <span class="st">'A</span><span class="ch">&amp;W</span><span class="st">'</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%SHOPPERS%'</span> <span class="cf">THEN</span> <span class="st">'SHOPPERS'</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%VALUE VILLAGE%'</span> <span class="cf">THEN</span> <span class="st">'VALUE VILLAGE'</span></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%TIM HORTONS%'</span> <span class="cf">THEN</span> <span class="st">'TIM HORTONS'</span></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%USD CAD%'</span> <span class="cf">THEN</span> <span class="st">'USD CAD'</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%STARBUCKS%'</span> <span class="cf">THEN</span> <span class="st">'STARBUCKS'</span></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">WHEN</span> description <span class="kw">LIKE</span> <span class="st">'%WINNERS%'</span> <span class="cf">THEN</span> <span class="st">'WINNERS'</span></span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">ELSE</span> description</span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">END</span> <span class="kw">AS</span> <span class="fu">mod</span> <span class="kw">FROM</span> transactions_canada;</span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a><span class="co">-- the case when statement in SQL seems less efficient than other languages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> description, <span class="fu">AVG</span>(amount) <span class="kw">as</span> AVERAGE <span class="kw">FROM</span> transaction_canada_gen <span class="kw">GROUP</span> <span class="kw">BY</span> description;</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- I am not so sure the temporary table was created how I wanted it to be, and I know I could have accomplished the same thing (easier) by wrangling it in R but there's not time.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">AVERAGE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CANCO #126 &amp; PIZZA PIZ</td>
+<td style="text-align: right;">16.780</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">STARBUCKS 04201</td>
+<td style="text-align: right;">8.740</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VESTA *CHATR 888-278-5588 BC</td>
+<td style="text-align: right;">39.200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">KITA NO DONBURI</td>
+<td style="text-align: right;">26.490</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SEPHORA KELOWNA</td>
+<td style="text-align: right;">45.920</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">THE CANADIAN BREW HOUSE KELOWNA BC</td>
+<td style="text-align: right;">119.550</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TIM HORTONS #0284 KELOWNA BC</td>
+<td style="text-align: right;">8.690</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SHELL C01310 VANCOUVER BC</td>
+<td style="text-align: right;">22.410</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WALMART KELOWNA BC</td>
+<td style="text-align: right;">16.576</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WINNERS KELOWNA BC</td>
+<td style="text-align: right;">75.645</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>My spending by category:</p>
+</section>
+<section id="us-spending-by-category" class="level4">
+<h4 class="anchored" data-anchor-id="us-spending-by-category">US SPENDING BY CATEGORY</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">category</span>, <span class="fu">SUM</span>(amount) <span class="kw">AS</span> total <span class="kw">FROM</span> transactions_us <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">category</span> <span class="kw">ORDER</span> <span class="kw">BY</span> total <span class="kw">DESC</span> <span class="kw">LIMIT</span> <span class="dv">20</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">category</th>
+<th style="text-align: right;">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ACADEMIC</td>
+<td style="text-align: right;">16677.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">INVEST</td>
+<td style="text-align: right;">4176.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FOOD</td>
+<td style="text-align: right;">2503.40</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ELECTRONIC</td>
+<td style="text-align: right;">1750.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Travel-Airline</td>
+<td style="text-align: right;">1482.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Restaurant-Restaurant</td>
+<td style="text-align: right;">1300.57</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TRAVEL</td>
+<td style="text-align: right;">1016.53</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ENTERTAINMENT</td>
+<td style="text-align: right;">875.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Business Services-Conferences &amp; Training</td>
+<td style="text-align: right;">794.52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Merchandise &amp; Supplies-Wholesale Stores</td>
+<td style="text-align: right;">658.49</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="canadian-spending-by-category" class="level4">
+<h4 class="anchored" data-anchor-id="canadian-spending-by-category">CANADIAN SPENDING BY CATEGORY</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">category</span>, <span class="fu">SUM</span>(amount) <span class="kw">AS</span> total <span class="kw">FROM</span> transactions_canada <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">category</span> <span class="kw">ORDER</span> <span class="kw">BY</span> total <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">category</th>
+<th style="text-align: right;">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CAR</td>
+<td style="text-align: right;">2238.36</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CLOTHES</td>
+<td style="text-align: right;">1964.67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ELECTRONIC</td>
+<td style="text-align: right;">1840.16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TRAVEL</td>
+<td style="text-align: right;">1722.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FOOD</td>
+<td style="text-align: right;">1628.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GIFT</td>
+<td style="text-align: right;">1297.17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GAS</td>
+<td style="text-align: right;">1292.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ACADEMIC</td>
+<td style="text-align: right;">860.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">GROCERY</td>
+<td style="text-align: right;">691.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HEALTH</td>
+<td style="text-align: right;">664.35</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>I’m surprised that clothes are my second largest category in Canada…</p>
+</section>
+</section>
+<section id="the-future" class="level2">
+<h2 class="anchored" data-anchor-id="the-future">The Future</h2>
+<p>If I had more time, I would really like to focus on cleaning and wrangling the data more. I could find really cool insight and patterns with this data, and it’s something I’d like to keep adding to.</p>
+<p>This could be a fun regression or even predictive model project. I could layer other data like weather and personal daily “feedback/journals” (a Google form that takes about 5 minutes to do and keeps track of any emotional highs or lows, events from that day, physical updates, etc) to see what factors seem to most impact my spending and seeing how I can optimize my saving by looking at predictions.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Spendify.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Congrats</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con_bank, <span class="at">shutdown=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,826 @@
+---
+title: "$pending Wrapped"
+author: "Chaira Harder"
+class: "SDS261"
+format: html
+editor: visual
+---
+
+![$pending Wrapped](spending_wrapped.jpg)
+
+## The Data
+
+The data used in the project was collected by American Express, Discover Bank, Toronto-Dominion US, Toronto-Dominion Canada, and the Bank of Montreal and tracked my personal expenditure in two countries: Canada and the United States.
+
+Originally, I wanted to use banking data from all of my debit accounts, credit cards, and trade/savings/retirement accounts, but that would take a little too long to collect all of the data from all of the platforms so I'm going to focus on the spending made from my credit cards (2 in the US and 2 in Canada), my Venmo account (US), and one of my old Canadian debit accounts (CA).
+
+I am exploring the data with two separate tables (US and Canada) because the exchange rate changes and it won't as accurately represent my spending if it's all in one currency.
+
+
+| BANK               | TYPE          | COUNTRY | DATA USED | DATA STARTS |
+|--------------------|---------------|---------|---------|---------|
+| American Express   | Credit Card   | USA     |YES      |2023      |
+| Discover Bank      | Credit Card   | USA     |YES      |2023      |
+| TD USA             | Debit Account | USA     |YES      |2021      |
+| TD Canada          | Debit Account | Canada  |NO       | NA      |
+| BMO Canada         | Debit Account | Canada  |YES      |2019      |
+| TD Canada          | Credit Card   | Canada  |YES      |2023-LIMITED |
+| BMO Canada         | Credit Card   | Canada  |YES      |2022      |
+| Banc of California | Money Market  | USA     |NO       | NA      |
+| BMO Harris         | Debit Account | USA     |NO       | NA      |
+| VENMO              | ONLINE        | USA     | YES     |2021      |
+
+: Bank Accounts {.striped .hover}
+
+
+***Note: I am not racking up any credit card debt or loans.***
+
+
+## The Process
+
+### First, we load the necessary libraries:
+
+```{r}
+#| eval: true
+#| echo: true
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(duckdb)
+```
+
+'tidyverse': A system of packages and tools in R used to help with data exploration, manipulation and visualization. 'duckdb': An opensource database management system.
+
+Next, we make a connection using 'duckdb':
+
+```{r}
+#| eval: true
+#| echo: true
+#| message: false
+
+con_bank <- DBI::dbConnect(duckdb::duckdb(),
+                             dbdir = "bank_db")
+```
+
+Our next step will be importing the data and creating the tables for our data in SQL:
+
+
+
+#### The Amex Table:
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called amex if it already exists. This will allow us to create
+-- our amex table smoothly.
+
+DROP TABLE IF EXISTS amex;
+```
+
+With the following SQL block, we are defining the columns and any constraints in our 'amex' table.
+
+```{sql}
+#| connection: con_bank
+
+-- 1: Amex
+
+CREATE TABLE amex (
+  transaction_date VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  amount DECIMAL,
+  extended_details VARCHAR(255),
+  appears_as VARCHAR(255),
+  address VARCHAR(255),
+  city_state VARCHAR(255),
+  zip_code VARCHAR(255),
+  country VARCHAR(255),
+  reference VARCHAR(255),
+  category VARCHAR(255)
+);
+
+```
+
+#### The Discover Table:
+
+With the following SQL block, we are defining the columns and any constraints in our 'discover' table.
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create
+-- our table smoothly.
+
+DROP TABLE IF EXISTS discover;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- 2: Discover
+
+CREATE TABLE discover (
+  transaction_date VARCHAR(255) NOT NULL,
+  posted_date VARCHAR(255),
+  description VARCHAR(255),
+  amount DECIMAL,
+  category VARCHAR(255)
+);
+
+```
+
+
+#### The TD US Debit Table:
+
+With the following SQL block, we are defining the columns and any constraints in our 'discover' table.
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create
+-- our table smoothly.
+
+DROP TABLE IF EXISTS tdus;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- 2: TDUS
+
+CREATE TABLE tdus (
+  transaction_date VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  amount DECIMAL,
+  category VARCHAR(255)
+);
+
+```
+
+#### The Venmo Table:
+
+With the following SQL block, we are defining the columns and any constraints in our 'venmo' table.
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create
+-- our venmo table smoothly.
+
+DROP TABLE IF EXISTS venmo;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- 3: Venmo
+
+CREATE TABLE venmo (
+  transaction_date VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  amount DECIMAL,
+  category VARCHAR(255)
+);
+
+```
+
+
+#### The TD Canada Table:
+
+With the following SQL block, we are defining the columns and any constraints in our 'tdca' table.
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create
+-- our tdca table smoothly.
+
+DROP TABLE IF EXISTS tdca;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- 4: TDCA
+
+CREATE TABLE tdca (
+  transaction_date VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  amount DECIMAL,
+  category VARCHAR(255)
+);
+
+```
+
+
+#### The BMO Table:
+
+With the following SQL block, we are defining the columns and any constraints in our 'bmoca' table.
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create
+-- our bmoca table smoothly.
+
+DROP TABLE IF EXISTS bmoca;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- 5: BMO
+
+CREATE TABLE bmoca (
+  transaction_date VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  amount DECIMAL,
+  category VARCHAR(255)
+);
+
+```
+
+
+#### The BMO Debit Table:
+
+With the following SQL block, we are defining the columns and any constraints in our 'bmoca' table.
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called discover if it already exists. This will allow us to create
+-- our bmoca table smoothly.
+
+DROP TABLE IF EXISTS bmodebit;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- 5: BMO
+
+CREATE TABLE bmodebit (
+  transaction_date VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  amount DECIMAL,
+  category VARCHAR(255)
+);
+
+```
+
+
+The following two SQL blocks copy the data from the csv files provided by the banks, into our tables and database. We will also view the number of observations each table originally holds individually.
+
+```{sql}
+#| connection: con_bank
+
+COPY amex FROM '/Users/chairaharder/Desktop/bank_data/amex.csv' HEADER;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM amex;
+```
+Our 'amex' table contains *279* observations.
+
+
+```{sql}
+#| connection: con_bank
+
+COPY discover FROM '/Users/chairaharder/Desktop/bank_data/DFS-Search-20240115.csv' HEADER;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM discover;
+```
+Our 'discover' table contains *144* observations.
+
+
+```{sql}
+#| connection: con_bank
+
+COPY tdus FROM '/Users/chairaharder/Desktop/bank_data/tdus_debit.csv' HEADER;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM tdus;
+```
+Our 'tdus' table contains *353* observations.
+
+
+```{sql}
+#| connection: con_bank
+
+COPY venmo FROM '/Users/chairaharder/Desktop/bank_data/venmo.csv' HEADER;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM venmo;
+```
+Our 'venmo' table contains *60* observations.
+
+
+```{sql}
+#| connection: con_bank
+
+COPY tdca FROM '/Users/chairaharder/Desktop/bank_data/tdca.csv' HEADER;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM tdca;
+```
+Our 'tdca' table contains *28* observations.
+
+
+```{sql}
+#| connection: con_bank
+
+COPY bmoca FROM '/Users/chairaharder/Desktop/bank_data/bmo.csv' HEADER;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM bmoca;
+```
+Our 'bmoca' table contains *145* observations.
+
+
+```{sql}
+#| connection: con_bank
+
+COPY bmodebit FROM '/Users/chairaharder/Desktop/bank_data/bmodebit.csv' HEADER;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM bmodebit;
+```
+Our 'bmodebit' table contains *282* observations.
+
+***Unfortunately I could not access my TD Canada Credit data (and some of BMO Credit) beyond the July-August of 2023 as the statements had deleted.***
+
+
+We can view some of the data from our tables with the following block (make sure the data is there):
+
+```{sql}
+#| connection: con_bank
+
+-- FOR AMEX DATA
+
+SELECT transaction_date, description, amount, category FROM amex LIMIT 10;
+```
+
+```{sql}
+#| connection: con_bank
+
+-- FOR DISCOVER DATA
+
+SELECT * FROM discover LIMIT 10;
+```
+
+```{sql}
+#| connection: con_bank
+
+-- FOR TDUS DATA
+
+SELECT * FROM tdus LIMIT 10;
+```
+
+```{sql}
+#| connection: con_bank
+
+-- FOR VENMO DATA
+
+SELECT * FROM venmo LIMIT 10;
+```
+
+```{sql}
+#| connection: con_bank
+
+-- FOR TD CA DATA
+
+SELECT * FROM tdca LIMIT 10;
+```
+
+```{sql}
+#| connection: con_bank
+
+-- FOR BMO CA DATA
+
+SELECT * FROM bmoca LIMIT 10;
+```
+
+```{sql}
+#| connection: con_bank
+
+-- FOR BMO DEBIT DATA
+
+SELECT * FROM bmodebit LIMIT 10;
+```
+And there we have our banking data imported!
+
+There are a couple of pending charges, so I'm going to manually update the tables to add them to the 'amex' and 'discover' tables:
+
+```{sql}
+#| connection: con_bank
+
+-- ADDING PENDING AMEX CHARGES
+
+INSERT INTO amex (transaction_date, description, amount, address , city_state, zip_code, country, category)
+  VALUES ('01/18/2024', 'STOP N SHOP', 28.49, '228 KING ST NORTHAMPTON MA 01060', 'NORTHAMPTON', '01063', 'UNITED STATES', 'FOOD'),
+         ('01/18/2024', 'SEPHORA', 10.59, '50 HOLYOKE ST HOLYOKE MA 01040', 'HOLYOKE', '01040', 'UNITED STATES', 'HEALTH & BEAUTY'),
+         ('01/18/2024', 'PRETZELMAKER', 6.52, '50 HOLYOKE ST HOLYOKE MA 01040', 'HOLYOKE', '01040', 'UNITED STATES', 'FOOD');
+```
+
+```{sql}
+#| connection: con_bank
+
+-- ADDING PENDING DISCOVER CHARGES
+
+INSERT INTO discover (transaction_date, posted_date, description, amount, category)
+  VALUES ('01/17/2024', '01/17/2024', 'WALMART STORE 02901 NORTHHAMPTON MA', 33.73, 'GROCERIES'),
+         ('01/17/2024', '01/17/2024', 'SMITH COLLEGE MAIL SERVICES NORTHAMPTON MA', 0.51, 'GIFTS'),
+         ('01/17/2024', '01/17/2024', 'IXL FAMILY SUBSCRIPT 650-372-4040 CA', 10.57, 'ACADEMIA'),
+         ('01/18/2024', '01/17/2024', 'HIGHBROW WOOD PIZZA NORTHAMPTON MA', 32.10, 'FOOD'),
+         ('01/17/2024', '01/17/2024', 'DUNKIN #357276 NORTHAMPTON MA', 11.19, 'FOOD');
+```
+
+```{sql}
+#| connection: con_bank
+
+-- ADDING BMOCA CHARGES
+
+INSERT INTO bmoca (transaction_date, description, amount, category)
+  VALUES ('05/23/2022', 'KELOWNA AUTO WORLD', 2130, 'CAR');
+```
+
+
+To make the data easier to explore, we are going to combine the tables using union to get all of the rows from both tables. Our combined resulting tables will be called 'transactions_us' and 'transactions_canada'.
+'transactions_us' = 'amex', 'discover', 'venmo', 'tdus'
+'transactions_canada' = 'bmoca', 'tdca', 'bmodebit'
+
+
+#### TRANSACTIONS_US:
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called transactions_us if it already exists. This will allow us to create
+-- our table smoothly.
+
+DROP TABLE IF EXISTS transactions_us;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- SELECT * FROM amex a JOIN discover d ON a.transaction_date = d.transaction_date;
+
+--CREATE TABLE transactions_us SELECT transaction_date, description, amount, extended_details, appears_as, address, city_state, zip_code, country, reference, category FROM amex UNION ALL SELECT transaction_date, description, amount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, category FROM discover;
+
+CREATE TABLE transactions_us AS SELECT transaction_date, description, amount, extended_details, appears_as, address, city_state, zip_code, country, reference, category FROM amex 
+  UNION ALL 
+  SELECT transaction_date, description, amount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, category FROM discover
+  UNION ALL
+  SELECT transaction_date, description, amount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, category FROM venmo
+  UNION ALL
+  SELECT transaction_date, description, amount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, category FROM tdus;
+
+```
+
+Confirming the 'transactions_us' table exists in our database:
+
+```{sql}
+#| connection: con_bank
+
+SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'transactions_us');
+```
+And seeing how many observations we have in our US transactions table:
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) as total_rows FROM transactions_us LIMIT 1;
+```
+
+
+#### TRANSACTIONS_CANADA:
+
+```{sql}
+#| connection: con_bank
+
+-- This code drops (removes) any pre-existing table called transactions_canada if it already exists. This will allow us to create
+-- our table smoothly.
+
+DROP TABLE IF EXISTS transactions_canada;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+-- union tdca and bmo credit and bmo debit
+
+CREATE TABLE transactions_canada AS 
+  SELECT transaction_date, description, amount, category FROM tdca 
+  UNION ALL 
+  SELECT transaction_date, description, amount, category FROM bmoca
+  UNION ALL
+  SELECT transaction_date, description, amount, category FROM bmodebit;
+
+```
+
+Confirming the 'transactions_canada' table exists in our database:
+
+```{sql}
+#| connection: con_bank
+
+SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'transactions_canada');
+```
+
+And seeing how many observations we have in our Canadian transactions table:
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) as total_rows FROM transactions_canada LIMIT 1;
+```
+
+
+Since I want to focus on my spending, I'm going to get rid of all of the observations where I've paid the balance (description is either *INTERNET PAYMENT - THANK YOU* or *ONLINE PAYMENT - THANK YOU*) or received a refund (negative amount). I won't do the same for the Canadian table since I cleaned this part of the data manually beforehand.
+
+```{sql}
+#| connection: con_bank
+
+DELETE FROM transactions_us
+   WHERE amount < 0 OR description = 'INTERNET PAYMENT - THANK YOU' OR description = 'ONLINE PAYMENT - THANK YOU';
+```
+
+Now our US transactions table contains 763 observations after deleting payments and refunds.
+
+```{sql}
+#| connection: con_bank
+
+SELECT COUNT(*) FROM transactions_us;
+```
+
+
+
+## The Findings
+
+First, I want to find out how much I have spent in *total* from the data.
+
+*TOTAL US SPENDING* 
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as total_spending FROM transactions_us LIMIT 1;
+```
+
+*TOTAL CANADIAN SPENDING - INCLUDING UNIVERSITY FEES*
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as total_spending FROM transactions_canada LIMIT 1;
+```
+
+Based off of the data used, this query shows us that my *total* Canadian spending is **CAD$46,593.60**. However, this includes the cost of my tuition for one year, so I'm going to drop all values in the 'Academic' category so I can focus on my other, non-academic spending. I am also going to specify spending over $1,000 because there are other smaller transactions that are categorized as 'Academic' but really went to school smoothies and snacks, etc. Those can stay.
+
+```{sql}
+#| connection: con_bank
+
+DELETE FROM transactions_canada
+   WHERE category = 'ACADEMIC' AND amount > 1000;
+```
+
+*TOTAL CANADIAN SPENDING - WITHOUT UNIVERSITY FEES*
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as total_spending FROM transactions_canada LIMIT 1;
+```
+
+
+
+I also want to find how much I've spent *during the current 23-24 school year* (since September 2023 - current). This regex searches dates between September 1, 2023 through May 31, 2024 (written January 19, 2024).
+
+*TOTAL US SCHOOL SPENDING - INCLUDING INVESTMENTS* 
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as junior_yr_spending_us FROM transactions_us WHERE regexp_matches(transaction_date, '(((09|10|11|12)/(([0-2][0-9])|3[01])/2023)|(0[1-5]/(([0-2][0-9])|3[01])/2024))') LIMIT 1;
+```
+This figure contains money I have invested this school year, so to look at money I have spent on things other than investments:
+
+*TOTAL US SCHOOL SPENDING - EXCLUDING INVESTMENTS* 
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as junior_yr_spending_us FROM transactions_us WHERE regexp_matches(transaction_date, '(((09|10|11|12)/(([0-2][0-9])|3[01])/2023)|(0[1-5]/(([0-2][0-9])|3[01])/2024))') AND category != 'INVEST' LIMIT 1;
+```
+
+
+*TOTAL CANADIAN SCHOOL SPENDING* 
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as junior_yr_spending_ca FROM transactions_canada WHERE regexp_matches(transaction_date, '(((09|10|11|12)/(([0-2][0-9])|3[01])/2023)|(0[1-5]/(([0-2][0-9])|3[01])/2024))') LIMIT 1;
+```
+This checks out for the Canadian table since I don't use my Canadian cards when I'm in the States.
+
+
+I want to compare this figure with my *spending over summer break*:
+Summer defined as from May - August.
+
+*TOTAL US SUMMER SPENDING* 
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as summer_23_spending FROM transactions_us WHERE regexp_matches(transaction_date, '(0[5678])/(([0-2][0-9])|3[01])/2023') LIMIT 1;
+```
+My US 2023 summer spending is **USD$4,797.39**.
+
+
+*TOTAL CANADIAN SUMMER SPENDING* 
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as summer_23_spending FROM transactions_canada WHERE regexp_matches(transaction_date, '(0[5678])/(([0-2][0-9])|3[01])/2023') LIMIT 1;
+```
+My Canada 2023 summer spending is **CAD$3,184.51**.
+
+These numbers are kind of skewed because the beginning of May (when I'm still in the US) and the end of August (when I'm traveling back to the US) have high spending figures in the US table. If we take out May and August for US spending, we see my actual summer spending at home with my US cards is **USD$79.81**, which would be for my phone plan and Spotify in the US.
+
+*TOTAL US SUMMER SPENDING* 
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as summer_23_spending FROM transactions_us WHERE regexp_matches(transaction_date, '(0[67])/(([0-2][0-9])|3[01])/2023') LIMIT 1;
+```
+```{sql}
+#| connection: con_bank
+
+SELECT transaction_date, description, amount FROM transactions_us WHERE regexp_matches(transaction_date, '(0[67])/(([0-2][0-9])|3[01])/2023');
+```
+
+
+
+The highest amount(s) of money I've spent in one transaction:
+
+*US 15 HIGHEST TRANSACTIONS* 
+```{sql}
+#| connection: con_bank
+
+SELECT transaction_date, description, amount FROM transactions_us WHERE category != 'INVEST' ORDER BY amount DESC LIMIT 15;
+```
+
+
+*CANADA 15 HIGHEST TRANSACTIONS* 
+```{sql}
+#| connection: con_bank
+
+SELECT transaction_date, description, amount FROM transactions_canada WHERE description != 'ABM WITHDRAWAL' ORDER BY amount DESC;
+
+--SELECT transaction_date, description, amount, category FROM transactions_canada ORDER BY amount DESC LIMIT 15;
+```
+
+
+Top places I spend my money:
+
+*US 10 BIGGEST CHAIRA MONEY GRABBERS* 
+```{sql}
+#| connection: con_bank
+
+SELECT description, SUM(amount) AS total FROM transactions_us GROUP BY description ORDER BY total DESC LIMIT 20;
+```
+
+*CANADA 10 BIGGEST CHAIRA MONEY GRABBERS* 
+```{sql}
+#| connection: con_bank
+
+SELECT description, SUM(amount) AS total FROM transactions_canada GROUP BY description ORDER BY total DESC LIMIT 10;
+```
+
+Based on what I know about myself, I know that Walmart and Shell are some of my most frequently visited places, so I'm curious to see how much I've spent there in the data:
+
+#### WALMART US
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as TOTAL FROM transactions_us WHERE description ILIKE '%walmart%' LIMIT 1;
+```
+
+#### WALMART CANADA
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as TOTAL FROM transactions_canada WHERE description ILIKE '%walmart%' LIMIT 1;
+```
+
+#### SHELL CANADA
+```{sql}
+#| connection: con_bank
+
+SELECT SUM(amount) as TOTAL FROM transactions_canada WHERE description ILIKE '%shell%' LIMIT 1;
+```
+
+The following code shows my average spending at each unique store, but I want to see my average spending at each company more generally, so I'll create a temporary table below.
+
+```{sql}
+#| connection: con_bank
+
+SELECT description, AVG(amount) as AVERAGE FROM transactions_us GROUP BY description;
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT description, AVG(amount) as AVERAGE FROM transactions_canada GROUP BY description;
+
+```
+
+```{sql}
+#| connection: con_bank
+CREATE TEMP TABLE transaction_canada_gen AS SELECT *,
+    CASE 
+        WHEN description LIKE '%SHELL%' THEN 'SHELL'
+        WHEN description LIKE '%A&W%' THEN 'A&W'
+        WHEN description LIKE '%SHOPPERS%' THEN 'SHOPPERS'
+        WHEN description LIKE '%VALUE VILLAGE%' THEN 'VALUE VILLAGE'
+        WHEN description LIKE '%TIM HORTONS%' THEN 'TIM HORTONS'
+        WHEN description LIKE '%USD CAD%' THEN 'USD CAD'
+        WHEN description LIKE '%STARBUCKS%' THEN 'STARBUCKS'
+        WHEN description LIKE '%WINNERS%' THEN 'WINNERS'
+        ELSE description
+    END AS mod FROM transactions_canada;
+
+-- the case when statement in SQL seems less efficient than other languages
+
+```
+
+```{sql}
+#| connection: con_bank
+
+SELECT description, AVG(amount) as AVERAGE FROM transaction_canada_gen GROUP BY description;
+
+-- I am not so sure the temporary table was created how I wanted it to be, and I know I could have accomplished the same thing (easier) by wrangling it in R but there's not time.
+
+```
+
+My spending by category:
+
+#### US SPENDING BY CATEGORY
+```{sql}
+#| connection: con_bank
+
+SELECT category, SUM(amount) AS total FROM transactions_us GROUP BY category ORDER BY total DESC LIMIT 20;
+```
+
+#### CANADIAN SPENDING BY CATEGORY
+```{sql}
+#| connection: con_bank
+
+SELECT category, SUM(amount) AS total FROM transactions_canada GROUP BY category ORDER BY total DESC;
+```
+I'm surprised that clothes are my second largest category in Canada...
+
+
+
+## The Future
+
+If I had more time, I would really like to focus on cleaning and wrangling the data more. I could find really cool insight and patterns with this data, and it's something I'd like to keep adding to.
+
+This could be a fun regression or even predictive model project. I could layer other data like weather and personal daily "feedback/journals" (a Google form that takes about 5 minutes to do and keeps track of any emotional highs or lows, events from that day, physical updates, etc) to see what factors seem to most impact my spending and seeing how I can optimize my saving by looking at predictions.
+
+![Congrats](Spendify.png)
+
+```{r}
+dbDisconnect(con_bank, shutdown=TRUE)
+```
+
