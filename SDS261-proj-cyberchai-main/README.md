@@ -1,2 +1,3 @@
 # SDS261-proj
-individual project space for the SDS 261 mini-project
+
+This is my final project for SDS 261: SQL for Databases, a January-term course offered by Pomona College professor Jo Hardin at Smith College.
